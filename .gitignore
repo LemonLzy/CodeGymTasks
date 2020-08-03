@@ -6,8 +6,6 @@
 .repository/
 *.iml
 *.iws
-*.tcs
-*.info
 
 /CodeGymPlugin.properties
 /Instruction.png
