@@ -6,9 +6,10 @@
 
 # 目录结构介绍
 
-1.JavaSyntax：JAVA语法部分，level1-level0习题
+1.JavaSyntax：JAVA语法部分，level1-level10习题
 
 2.JavaCore：JAVA核心部分，level11-level20习题
+
 
 
 如有问题可随时沟通。
