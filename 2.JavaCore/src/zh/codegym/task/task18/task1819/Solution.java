@@ -9,29 +9,30 @@ import java.io.*;
 
 public class Solution {
     public static void main(String[] args) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(System.in));
-        String filename1 = bufferedReader.readLine();
-        String filename2 = bufferedReader.readLine();
-        bufferedReader.close();
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        String fileName1 = br.readLine();
+        String fileName2 = br.readLine();
+        br.close();
 
-        FileInputStream fileInputStream1 = new FileInputStream(filename1);
-        FileOutputStream fileOutputStream2 = new FileOutputStream(filename2, true);
+        FileInputStream in = new FileInputStream(fileName1);
+        FileOutputStream out = new FileOutputStream(fileName1);
+        FileInputStream in1 = new FileInputStream(fileName2);
 
-        while (fileInputStream1.available() > 0) {
-            int read = fileInputStream1.read();
-            fileOutputStream2.write(read);
+        byte[] bt = new byte[in.available()];
+        byte[] bt1 = new byte[in1.available()];
+        int data;
+
+        while (in.available() > 0) {
+            data = in.read(bt);
         }
-        fileInputStream1.close();
-        fileOutputStream2.close();
+        in.close();
 
-        FileInputStream fileInputStream2 = new FileInputStream(filename2);
-        FileOutputStream fileOutputStream1 = new FileOutputStream(filename1);
-
-        while (fileInputStream2.available() > 0) {
-            int read = fileInputStream2.read();
-            fileOutputStream1.write(read);
+        while (in1.available() > 0) {
+            data = in1.read(bt1);
+            out.write(bt1);
+            out.write(bt);
         }
-        fileInputStream2.close();
-        fileOutputStream1.close();
+        in1.close();
+        out.close();
     }
 }

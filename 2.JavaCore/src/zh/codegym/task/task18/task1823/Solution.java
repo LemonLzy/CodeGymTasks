@@ -7,7 +7,7 @@ import java.util.Map;
 import java.util.TreeMap;
 
 /* 
-线程和字节，未通过验证，实际验证通过
+线程和字节
 */
 
 public class Solution {
@@ -16,18 +16,14 @@ public class Solution {
 
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String file = " ";
-        while ((file = reader.readLine()) != null) {
-            if (file.equals("退出")) {
+        while (true) {
+            String file = reader.readLine();
+            if (file.equals("退出") || file.isEmpty()) {
                 break;
             } else {
                 ReadThread readThread = new ReadThread(file);
                 readThread.start();
             }
-        }
-
-        for (Map.Entry<String, Integer> stringIntegerEntry : resultMap.entrySet()) {
-            System.out.println(stringIntegerEntry.getKey() + " " + stringIntegerEntry.getValue());
         }
     }
 
@@ -43,32 +39,41 @@ public class Solution {
         @Override
         public void run() {
             try {
-                FileInputStream fileInputStream = new FileInputStream(filename);
-                Map<Integer, Integer> map = new HashMap<>();
+                FileInputStream in = new FileInputStream(this.filename);
 
-                while (fileInputStream.available() > 0) {
-                    int read = fileInputStream.read();
-                    if (map.containsKey(read)) {
-                        map.put(read, map.get(read) + 1);
+                HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
+                int data;
+                int count;
+                while (in.available() > 0) {
+                    data = in.read();
+                    if (isTrue(data, map)) {
+                        count = map.get(data);
+                        map.put(data, ++count);
                     } else {
-                        map.put(read, 1);
+                        map.put(data, 1);
                     }
                 }
-                fileInputStream.close();
-
-                TreeMap<Integer, Integer> sortMap = new TreeMap<>(new MapKeyComparator());
-                sortMap.putAll(map);
-
-                resultMap.put(filename, sortMap.lastKey());
+                in.close();
+                int max = 0;
+                for (Map.Entry<Integer, Integer> pair : map.entrySet()) {
+                    max = Math.max(max, pair.getValue());
+                }
+                for (Map.Entry<Integer, Integer> pair : map.entrySet()) {
+                    if (pair.getValue() == max)
+                        resultMap.put(filename, pair.getKey());
+                }
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        static class MapKeyComparator implements Comparator<Integer> {
-            public int compare(Integer str1, Integer str2) {
-                return str1.compareTo(str2);
+        public static Boolean isTrue(Integer a, HashMap<Integer, Integer> map) {
+            for (Integer key : map.keySet()) {
+                if (a.equals(key)) {
+                    return true;
+                }
             }
+            return false;
         }
     }
 }
